@@ -1,7 +1,13 @@
 
 :root{
-    --main_theme: rgb(255, 0, 0);
-    --secondary_theme: navy;
+    --background: rgb(43, 50, 90);
+    --theme-primary: rgb(255, 0, 0);
+    --theme-secondary: navy;
+    --fade-theme:yellow;
+}
+
+body{
+    background-color: var(--background);
 }
 
 a {
@@ -74,6 +80,10 @@ a {
     justify-content: space-around;
 }
 
+.display-inline{
+    display: inline;
+}
+
 .m-10{
     margin: 10px;
 }
@@ -96,4 +106,20 @@ a {
 
 .p-20{
     padding:10px;
+}
+
+.temp1{
+    border:solid 1px lime;
+}
+
+.bd-primary{
+    border:solid 2px var(--main-theme);
+}
+
+.bg-white{
+    background-color: whitesmoke;
+}
+
+.text-white{
+    color:whitesmoke;
 }

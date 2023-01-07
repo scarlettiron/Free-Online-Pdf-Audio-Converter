@@ -4,9 +4,49 @@
 
 {% block header %}
     {% load static %}
+    <link href="{% static 'css/converter_style.css'%}" rel="stylesheet" type="text/css"/>
+    <link href="{% static 'css/general.css'%}" rel="stylesheet" type="text/css"/>
+    <script source="{% static 'javascript/converter_engine.js' %}"> </script>
 {% endblock header %}
 
 {% block  body%} 
+
+    <div class='converter-main-container'>
+        <div class="w-100 justify-content-center">
+            <h1 class='text-white'> Convert Pdf files to Mp3 or Mp3/Wav to text</h1>
+        </div>
+
+        <div class = 'converter-selection-wrapper'>
+            <!-- main option selection container-->
+            <div class='converter-main-selection-div' id='converter-main-selection-div-id'>
+                <button class='display-inline btn-primary' onclick="togglePdfToAudio()"> Pdf to Mp3 </button>
+                <button class='display-inline btn-primary' onclick='toggleAudioToTxt()'> Mp3 / Wav to text </button>
+            </div>
+            <!--end option container-->
+
+            <!--Popup for converting pdf to audio-->
+            <form class='pdf-to-audio-input inactive' id='pdf-to-audio-input-id' method="post" enctype="multipart/form-data">
+                <div class='btn-main display-inline w-50'>
+                    <input classname='converter-audio-input' id='audio-input'/>
+                </div>
+                <div class='display-inline w-50'>
+                    <button class='btn-primary' id='convert-btn' form='pdf-to-audio-input-id'> <span id='convert-span'>Convert</span></button>
+                </div>
+            </form>
+            <!--end pdf to audio popup-->
+
+            <!-- popup for audio to txt-->
+            <form class='audio-to-txt-input inactive' id='audio-to-txt-input-id' method="post" enctype="multipart/form-data">
+                <div class='btn-main display-inline w-50'>
+                    <input classname='converter-audio-input' id='audio-input'/>
+                </div>
+                <div class='display-inline w-50'>
+                    <button class='btn-primary' id='convert-btn' form='audio-to-txt-input-id'> <span id='convert-span'>Convert</span></button>
+                </div>
+            </form>
+        </div>
+        <!--end audio to txt popup-->
+    </div>
 
 
 {% endblock  %}

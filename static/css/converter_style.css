@@ -1,8 +1,80 @@
 @import './general.css';
 
 .converter-main-container{
-    width: 100vw;
-    margin:0 auto;
+    width: 98vw;
+    min-height: 100px;
     display: flex;
+    flex-wrap: wrap;
     justify-content: center;
+    margin-top: 20vh;
+}
+
+.converter-selection-wrapper{
+    width:100%;
+    height:100%;
+    justify-content: center;
+    display: flex;
+    margin-top:20vh;
+}
+
+.btn-primary{
+    border-radius: 30px;
+    background-image: radial-gradient(circle, var(--theme-primary), var(--fade-theme));
+    padding-left: 30px;
+    padding-right: 30px;
+    padding-top: 15px;
+    padding-bottom: 15px;
+    color: whitesmoke;
+    outline:none;
+    text-decoration: none;
+    border:none;
+    min-width:25%;
+}
+
+.file-name-placeholder{
+    color: whitesmoke;
+    border-radius: 50px;
+    background-color: var(--background);
+    border:solid 5px whitesmoke;
+    padding:10px;
+}
+
+.converter-main-selection-div{
+    display:flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    height:100%;
+    width:100%;
+}
+
+.converter-main-selection-div.inactive{
+    display: none;
+    transition: .25 ease-in-out;
+}
+
+.pdf-to-audio-input{
+    display: none;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    height:100%;
+    width:100%;
+}
+
+.pdf-to-audio-input.active{
+    display: flex;
+    transition: .25 ease-in-out;
+}
+
+
+.audio-to-txt-input{
+    display: none;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    height:100%;
+    width:100%;
+}
+
+.audio-to-txt-input.active{
+    display: flex;
+    transition: .25 ease-in-out;
 }
