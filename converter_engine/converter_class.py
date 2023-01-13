@@ -4,12 +4,17 @@ import pdfplumber
 from random import randint
 from playsound import playsound
 import speech_recognition as sr
-from pydub import AudioSegment
-from pydub.silence import split_on_silence
+#from pydub import AudioSegment
+#from pydub.silence import split_on_silence
+from datetime import datetime as dt
+import asyncio
 
-class pdf_audio_converter:
-    def __init__(self, file_path, save_path = './', text=None):
+class PdfAudioConverter:
+    def __init__(self, file_path=None, file=None, save_path = './temporaryhold/', text=None):
+        #use file_path when converting local files
         self.file_path = file_path
+        #use file when passing actual file from requests
+        self.file = file
         self.save_path = save_path
         self.text = text
         self.audio_engine = pyttsx3.init()
@@ -18,41 +23,56 @@ class pdf_audio_converter:
     def pdf_to_text(self):
         
         final_text = ""
+        #read file
+        print(self.file_path)
+        reader = PyPDF3.PdfFileReader(self.file_path)
+        #get number of pages file contains
+        pages = reader.numPages
         
-        #open pdf to be read
-        with open(self.file_path, 'rb') as book:
-            #read file
-            reader = PyPDF3.PdfFileReader(book)
-            #get number of pages file contains
-            pages = reader.numPages
-            
-            with pdfplumber.open(self.file_path) as pdf:
+        with pdfplumber.open(self.file_path) as pdf:
 
-                for i in range(pages):
-                    page = pdf.pages[i]
-                    #extract text from pdf
-                    text = page.extract_text()
-                    #clean text
-                    text.strip().replace('\n', ' ')
-                    final_text += text
-                    self.text = final_text
-                    
-                pdf.close()
-            book.close()
-        
+            for i in range(pages):
+                page = pdf.pages[i]
+                #extract text from pdf
+                text = page.extract_text()
+                #clean text
+                text.strip().replace('\n', ' ')
+                final_text += text
+                self.text = final_text
+                
+            pdf.close()
         return self
     
+    
+    async def save_audio(self, file_path):
+        audio_engine = pyttsx3.init()
+        print(self.text)
+        audio_engine.save_to_file(self.text, 'test.mp3')
+        audio_engine.runAndWait()
+        print('past audio engine save')
+        self.file_path = file_path
+        return self
+        
     #for saving cleaned text as an audio file
     #requires pdf to text to be run first
     def save_pdf_as_audio(self):
+        print('saving')
         file_key = randint(0, 10000)
-        file_name = f"pdf_audio_{file_key}.mp3"
+        time_stamp = dt.utcnow().strftime('%m/%d/%Y')
+        file_name = f"pdf_audio_{file_key}_{time_stamp}.mp3"
         file_path = f"{self.save_path}{file_name}"
+        print('saving file')
+        print(file_path)
+        asyncio.run(self.save_audio(file_path))
 
-        self.audio_engine.save_to_file(self.text, file_path)
-        self.audio_engine.runAndWait()
-        return
-        
+        ''' audio_engine = pyttsx3.init()
+        audio_engine.save_to_file(self.text, file_name)
+        print('past audio engine save')
+        audio_engine.runAndWait()
+        self.file_path = file_path '''
+        return self
+    
+
     #for playing cleaned text as audio
     #requires pdf to text to beb run first   
     def play_text_audio(self):
@@ -89,21 +109,22 @@ class pdf_audio_converter:
         
         return
     
-    def large_audio_transcript(self):
+    #to be completed, ffmpeg server installation required
+    '''  def large_audio_transcript(self):
         sound = AudioSegment.from_mp3(self.file_path)
         
         chunks = split_on_silence(min_silence_len = 500, 
                                 silence_thresh = sound.dBFS-14,
-                                keep_silence=500)
+                                keep_silence=500) '''
         
                 
 #for local testing
-if __name__ == "__main__":
+#if __name__ == "__main__":
     #pdf's
     #action = pdf_audio_converter('./AWS-Certified-Cloud-Practitioner_Exam-Guide.pdf')
     #audio's
-    action = pdf_audio_converter('pdf_audio_2757.mp3')
-    action.speech_to_text()
+    #action = pdf_audio_converter('pdf_audio_2757.mp3')
+  
     
     #action.play_audio()
                     
